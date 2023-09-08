@@ -1,0 +1,5 @@
+build.sh
+pnpm-lock.yaml
+.idea
+protoc-gen-js
+node_modules
