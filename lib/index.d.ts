@@ -1,2 +1,2 @@
 //
-export * as user-center from './user-center'
+export * as users from './users'
