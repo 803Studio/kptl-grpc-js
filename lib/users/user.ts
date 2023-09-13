@@ -198,7 +198,7 @@ export namespace users {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
             header?: ResponseHeader;
-            token?: string;
+            uid?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -206,8 +206,8 @@ export namespace users {
                 if ("header" in data && data.header != undefined) {
                     this.header = data.header;
                 }
-                if ("token" in data && data.token != undefined) {
-                    this.token = data.token;
+                if ("uid" in data && data.uid != undefined) {
+                    this.uid = data.uid;
                 }
             }
         }
@@ -220,35 +220,35 @@ export namespace users {
         get has_header() {
             return pb_1.Message.getField(this, 1) != null;
         }
-        get token() {
-            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+        get uid() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
         }
-        set token(value: string) {
+        set uid(value: number) {
             pb_1.Message.setField(this, 2, value);
         }
         static fromObject(data: {
             header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
-            token?: string;
+            uid?: number;
         }): LoginResponse {
             const message = new LoginResponse({});
             if (data.header != null) {
                 message.header = ResponseHeader.fromObject(data.header);
             }
-            if (data.token != null) {
-                message.token = data.token;
+            if (data.uid != null) {
+                message.uid = data.uid;
             }
             return message;
         }
         toObject() {
             const data: {
                 header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
-                token?: string;
+                uid?: number;
             } = {};
             if (this.header != null) {
                 data.header = this.header.toObject();
             }
-            if (this.token != null) {
-                data.token = this.token;
+            if (this.uid != null) {
+                data.uid = this.uid;
             }
             return data;
         }
@@ -258,8 +258,8 @@ export namespace users {
             const writer = w || new pb_1.BinaryWriter();
             if (this.has_header)
                 writer.writeMessage(1, this.header, () => this.header.serialize(writer));
-            if (this.token.length)
-                writer.writeString(2, this.token);
+            if (this.uid != 0)
+                writer.writeUint32(2, this.uid);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -273,7 +273,7 @@ export namespace users {
                         reader.readMessage(message.header, () => message.header = ResponseHeader.deserialize(reader));
                         break;
                     case 2:
-                        message.token = reader.readString();
+                        message.uid = reader.readUint32();
                         break;
                     default: reader.skipField();
                 }
