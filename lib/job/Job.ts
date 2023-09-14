@@ -173,12 +173,20 @@ export namespace job {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
             jobName?: string;
+            index?: number;
+            size?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
                 if ("jobName" in data && data.jobName != undefined) {
                     this.jobName = data.jobName;
+                }
+                if ("index" in data && data.index != undefined) {
+                    this.index = data.index;
+                }
+                if ("size" in data && data.size != undefined) {
+                    this.size = data.size;
                 }
             }
         }
@@ -188,21 +196,49 @@ export namespace job {
         set jobName(value: string) {
             pb_1.Message.setField(this, 1, value);
         }
+        get index() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set index(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get size() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set size(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
         static fromObject(data: {
             jobName?: string;
+            index?: number;
+            size?: number;
         }): FindJobByNameRequest {
             const message = new FindJobByNameRequest({});
             if (data.jobName != null) {
                 message.jobName = data.jobName;
+            }
+            if (data.index != null) {
+                message.index = data.index;
+            }
+            if (data.size != null) {
+                message.size = data.size;
             }
             return message;
         }
         toObject() {
             const data: {
                 jobName?: string;
+                index?: number;
+                size?: number;
             } = {};
             if (this.jobName != null) {
                 data.jobName = this.jobName;
+            }
+            if (this.index != null) {
+                data.index = this.index;
+            }
+            if (this.size != null) {
+                data.size = this.size;
             }
             return data;
         }
@@ -212,6 +248,10 @@ export namespace job {
             const writer = w || new pb_1.BinaryWriter();
             if (this.jobName.length)
                 writer.writeString(1, this.jobName);
+            if (this.index != 0)
+                writer.writeInt32(2, this.index);
+            if (this.size != 0)
+                writer.writeInt32(3, this.size);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -223,6 +263,12 @@ export namespace job {
                 switch (reader.getFieldNumber()) {
                     case 1:
                         message.jobName = reader.readString();
+                        break;
+                    case 2:
+                        message.index = reader.readInt32();
+                        break;
+                    case 3:
+                        message.size = reader.readInt32();
                         break;
                     default: reader.skipField();
                 }
@@ -239,7 +285,7 @@ export namespace job {
     export class FindJobByIdRequest extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            jobId?: string;
+            jobId?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -250,13 +296,13 @@ export namespace job {
             }
         }
         get jobId() {
-            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
         }
-        set jobId(value: string) {
+        set jobId(value: number) {
             pb_1.Message.setField(this, 1, value);
         }
         static fromObject(data: {
-            jobId?: string;
+            jobId?: number;
         }): FindJobByIdRequest {
             const message = new FindJobByIdRequest({});
             if (data.jobId != null) {
@@ -266,7 +312,7 @@ export namespace job {
         }
         toObject() {
             const data: {
-                jobId?: string;
+                jobId?: number;
             } = {};
             if (this.jobId != null) {
                 data.jobId = this.jobId;
@@ -277,8 +323,8 @@ export namespace job {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
             const writer = w || new pb_1.BinaryWriter();
-            if (this.jobId.length)
-                writer.writeString(1, this.jobId);
+            if (this.jobId != 0)
+                writer.writeInt32(1, this.jobId);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -289,7 +335,7 @@ export namespace job {
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        message.jobId = reader.readString();
+                        message.jobId = reader.readInt32();
                         break;
                     default: reader.skipField();
                 }
@@ -944,7 +990,7 @@ export namespace job {
             return Company.deserialize(bytes);
         }
     }
-    export class BoundCompanyReq extends pb_1.Message {
+    export class CommonCompanyReq extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
             id?: number;
@@ -965,8 +1011,8 @@ export namespace job {
         }
         static fromObject(data: {
             id?: number;
-        }): BoundCompanyReq {
-            const message = new BoundCompanyReq({});
+        }): CommonCompanyReq {
+            const message = new CommonCompanyReq({});
             if (data.id != null) {
                 message.id = data.id;
             }
@@ -990,8 +1036,8 @@ export namespace job {
             if (!w)
                 return writer.getResultBuffer();
         }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): BoundCompanyReq {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new BoundCompanyReq();
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CommonCompanyReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CommonCompanyReq();
             while (reader.nextField()) {
                 if (reader.isEndGroup())
                     break;
@@ -1007,75 +1053,8 @@ export namespace job {
         serializeBinary(): Uint8Array {
             return this.serialize();
         }
-        static deserializeBinary(bytes: Uint8Array): BoundCompanyReq {
-            return BoundCompanyReq.deserialize(bytes);
-        }
-    }
-    export class VerifyCompanyReq extends pb_1.Message {
-        #one_of_decls: number[][] = [];
-        constructor(data?: any[] | {
-            id?: number;
-        }) {
-            super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
-            if (!Array.isArray(data) && typeof data == "object") {
-                if ("id" in data && data.id != undefined) {
-                    this.id = data.id;
-                }
-            }
-        }
-        get id() {
-            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
-        }
-        set id(value: number) {
-            pb_1.Message.setField(this, 1, value);
-        }
-        static fromObject(data: {
-            id?: number;
-        }): VerifyCompanyReq {
-            const message = new VerifyCompanyReq({});
-            if (data.id != null) {
-                message.id = data.id;
-            }
-            return message;
-        }
-        toObject() {
-            const data: {
-                id?: number;
-            } = {};
-            if (this.id != null) {
-                data.id = this.id;
-            }
-            return data;
-        }
-        serialize(): Uint8Array;
-        serialize(w: pb_1.BinaryWriter): void;
-        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-            const writer = w || new pb_1.BinaryWriter();
-            if (this.id != 0)
-                writer.writeInt32(1, this.id);
-            if (!w)
-                return writer.getResultBuffer();
-        }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): VerifyCompanyReq {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new VerifyCompanyReq();
-            while (reader.nextField()) {
-                if (reader.isEndGroup())
-                    break;
-                switch (reader.getFieldNumber()) {
-                    case 1:
-                        message.id = reader.readInt32();
-                        break;
-                    default: reader.skipField();
-                }
-            }
-            return message;
-        }
-        serializeBinary(): Uint8Array {
-            return this.serialize();
-        }
-        static deserializeBinary(bytes: Uint8Array): VerifyCompanyReq {
-            return VerifyCompanyReq.deserialize(bytes);
+        static deserializeBinary(bytes: Uint8Array): CommonCompanyReq {
+            return CommonCompanyReq.deserialize(bytes);
         }
     }
     export class CommonResponse extends pb_1.Message {
@@ -1514,6 +1493,398 @@ export namespace job {
             return JobMessage.deserialize(bytes);
         }
     }
+    export class FindCompanyByNameReq extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            name?: string;
+            index?: number;
+            size?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("name" in data && data.name != undefined) {
+                    this.name = data.name;
+                }
+                if ("index" in data && data.index != undefined) {
+                    this.index = data.index;
+                }
+                if ("size" in data && data.size != undefined) {
+                    this.size = data.size;
+                }
+            }
+        }
+        get name() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set name(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get index() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set index(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get size() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set size(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        static fromObject(data: {
+            name?: string;
+            index?: number;
+            size?: number;
+        }): FindCompanyByNameReq {
+            const message = new FindCompanyByNameReq({});
+            if (data.name != null) {
+                message.name = data.name;
+            }
+            if (data.index != null) {
+                message.index = data.index;
+            }
+            if (data.size != null) {
+                message.size = data.size;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                name?: string;
+                index?: number;
+                size?: number;
+            } = {};
+            if (this.name != null) {
+                data.name = this.name;
+            }
+            if (this.index != null) {
+                data.index = this.index;
+            }
+            if (this.size != null) {
+                data.size = this.size;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.name.length)
+                writer.writeString(1, this.name);
+            if (this.index != 0)
+                writer.writeInt32(2, this.index);
+            if (this.size != 0)
+                writer.writeInt32(3, this.size);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindCompanyByNameReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindCompanyByNameReq();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.name = reader.readString();
+                        break;
+                    case 2:
+                        message.index = reader.readInt32();
+                        break;
+                    case 3:
+                        message.size = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindCompanyByNameReq {
+            return FindCompanyByNameReq.deserialize(bytes);
+        }
+    }
+    export class FindAllCompaniesReq extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            index?: number;
+            size?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("index" in data && data.index != undefined) {
+                    this.index = data.index;
+                }
+                if ("size" in data && data.size != undefined) {
+                    this.size = data.size;
+                }
+            }
+        }
+        get index() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set index(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get size() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set size(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            index?: number;
+            size?: number;
+        }): FindAllCompaniesReq {
+            const message = new FindAllCompaniesReq({});
+            if (data.index != null) {
+                message.index = data.index;
+            }
+            if (data.size != null) {
+                message.size = data.size;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                index?: number;
+                size?: number;
+            } = {};
+            if (this.index != null) {
+                data.index = this.index;
+            }
+            if (this.size != null) {
+                data.size = this.size;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.index != 0)
+                writer.writeInt32(1, this.index);
+            if (this.size != 0)
+                writer.writeInt32(2, this.size);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindAllCompaniesReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindAllCompaniesReq();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.index = reader.readInt32();
+                        break;
+                    case 2:
+                        message.size = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindAllCompaniesReq {
+            return FindAllCompaniesReq.deserialize(bytes);
+        }
+    }
+    export class CommonCompanyResponse extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            header?: ResponseHeader;
+            companies?: Company[];
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [2], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("header" in data && data.header != undefined) {
+                    this.header = data.header;
+                }
+                if ("companies" in data && data.companies != undefined) {
+                    this.companies = data.companies;
+                }
+            }
+        }
+        get header() {
+            return pb_1.Message.getWrapperField(this, ResponseHeader, 1) as ResponseHeader;
+        }
+        set header(value: ResponseHeader) {
+            pb_1.Message.setWrapperField(this, 1, value);
+        }
+        get has_header() {
+            return pb_1.Message.getField(this, 1) != null;
+        }
+        get companies() {
+            return pb_1.Message.getRepeatedWrapperField(this, Company, 2) as Company[];
+        }
+        set companies(value: Company[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 2, value);
+        }
+        static fromObject(data: {
+            header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+            companies?: ReturnType<typeof Company.prototype.toObject>[];
+        }): CommonCompanyResponse {
+            const message = new CommonCompanyResponse({});
+            if (data.header != null) {
+                message.header = ResponseHeader.fromObject(data.header);
+            }
+            if (data.companies != null) {
+                message.companies = data.companies.map(item => Company.fromObject(item));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+                companies?: ReturnType<typeof Company.prototype.toObject>[];
+            } = {};
+            if (this.header != null) {
+                data.header = this.header.toObject();
+            }
+            if (this.companies != null) {
+                data.companies = this.companies.map((item: Company) => item.toObject());
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_header)
+                writer.writeMessage(1, this.header, () => this.header.serialize(writer));
+            if (this.companies.length)
+                writer.writeRepeatedMessage(2, this.companies, (item: Company) => item.serialize(writer));
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CommonCompanyResponse {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CommonCompanyResponse();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message.header, () => message.header = ResponseHeader.deserialize(reader));
+                        break;
+                    case 2:
+                        reader.readMessage(message.companies, () => pb_1.Message.addToRepeatedWrapperField(message, 2, Company.deserialize(reader), Company));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CommonCompanyResponse {
+            return CommonCompanyResponse.deserialize(bytes);
+        }
+    }
+    export class FindCompanyByIdResponse extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            header?: ResponseHeader;
+            company?: Company;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("header" in data && data.header != undefined) {
+                    this.header = data.header;
+                }
+                if ("company" in data && data.company != undefined) {
+                    this.company = data.company;
+                }
+            }
+        }
+        get header() {
+            return pb_1.Message.getWrapperField(this, ResponseHeader, 1) as ResponseHeader;
+        }
+        set header(value: ResponseHeader) {
+            pb_1.Message.setWrapperField(this, 1, value);
+        }
+        get has_header() {
+            return pb_1.Message.getField(this, 1) != null;
+        }
+        get company() {
+            return pb_1.Message.getWrapperField(this, Company, 2) as Company;
+        }
+        set company(value: Company) {
+            pb_1.Message.setWrapperField(this, 2, value);
+        }
+        get has_company() {
+            return pb_1.Message.getField(this, 2) != null;
+        }
+        static fromObject(data: {
+            header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+            company?: ReturnType<typeof Company.prototype.toObject>;
+        }): FindCompanyByIdResponse {
+            const message = new FindCompanyByIdResponse({});
+            if (data.header != null) {
+                message.header = ResponseHeader.fromObject(data.header);
+            }
+            if (data.company != null) {
+                message.company = Company.fromObject(data.company);
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+                company?: ReturnType<typeof Company.prototype.toObject>;
+            } = {};
+            if (this.header != null) {
+                data.header = this.header.toObject();
+            }
+            if (this.company != null) {
+                data.company = this.company.toObject();
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_header)
+                writer.writeMessage(1, this.header, () => this.header.serialize(writer));
+            if (this.has_company)
+                writer.writeMessage(2, this.company, () => this.company.serialize(writer));
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindCompanyByIdResponse {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindCompanyByIdResponse();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message.header, () => message.header = ResponseHeader.deserialize(reader));
+                        break;
+                    case 2:
+                        reader.readMessage(message.company, () => message.company = Company.deserialize(reader));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindCompanyByIdResponse {
+            return FindCompanyByIdResponse.deserialize(bytes);
+        }
+    }
     interface GrpcUnaryServiceInterface<P, R> {
         (message: P, metadata: grpc_1.Metadata, options: grpc_1.CallOptions, callback: grpc_1.requestCallback<R>): grpc_1.ClientUnaryCall;
         (message: P, metadata: grpc_1.Metadata, callback: grpc_1.requestCallback<R>): grpc_1.ClientUnaryCall;
@@ -1612,12 +1983,39 @@ export namespace job {
                 responseSerialize: (message: CommonResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => CommonResponse.deserialize(new Uint8Array(bytes))
             },
+            FindCompanyByName: {
+                path: "/job.Job/FindCompanyByName",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: FindCompanyByNameReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => FindCompanyByNameReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: CommonCompanyResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => CommonCompanyResponse.deserialize(new Uint8Array(bytes))
+            },
+            FindCompanyById: {
+                path: "/job.Job/FindCompanyById",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: CommonCompanyReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => CommonCompanyReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: FindCompanyByIdResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => FindCompanyByIdResponse.deserialize(new Uint8Array(bytes))
+            },
+            FindAllCompanies: {
+                path: "/job.Job/FindAllCompanies",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: FindAllCompaniesReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => FindAllCompaniesReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: CommonCompanyResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => CommonCompanyResponse.deserialize(new Uint8Array(bytes))
+            },
             BoundCompany: {
                 path: "/job.Job/BoundCompany",
                 requestStream: false,
                 responseStream: false,
-                requestSerialize: (message: BoundCompanyReq) => Buffer.from(message.serialize()),
-                requestDeserialize: (bytes: Buffer) => BoundCompanyReq.deserialize(new Uint8Array(bytes)),
+                requestSerialize: (message: CommonCompanyReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => CommonCompanyReq.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: CommonResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => CommonResponse.deserialize(new Uint8Array(bytes))
             },
@@ -1625,8 +2023,8 @@ export namespace job {
                 path: "/job.Job/VerifyCompany",
                 requestStream: false,
                 responseStream: false,
-                requestSerialize: (message: VerifyCompanyReq) => Buffer.from(message.serialize()),
-                requestDeserialize: (bytes: Buffer) => VerifyCompanyReq.deserialize(new Uint8Array(bytes)),
+                requestSerialize: (message: CommonCompanyReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => CommonCompanyReq.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: CommonResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => CommonResponse.deserialize(new Uint8Array(bytes))
             }
@@ -1640,8 +2038,11 @@ export namespace job {
         abstract UpdateJobs(call: grpc_1.ServerUnaryCall<JobMessage, SaveJobResponse>, callback: grpc_1.sendUnaryData<SaveJobResponse>): void;
         abstract RegisteredCompany(call: grpc_1.ServerUnaryCall<RegisteredCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
         abstract UpdateCompany(call: grpc_1.ServerUnaryCall<RegisteredCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
-        abstract BoundCompany(call: grpc_1.ServerUnaryCall<BoundCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
-        abstract VerifyCompany(call: grpc_1.ServerUnaryCall<VerifyCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
+        abstract FindCompanyByName(call: grpc_1.ServerUnaryCall<FindCompanyByNameReq, CommonCompanyResponse>, callback: grpc_1.sendUnaryData<CommonCompanyResponse>): void;
+        abstract FindCompanyById(call: grpc_1.ServerUnaryCall<CommonCompanyReq, FindCompanyByIdResponse>, callback: grpc_1.sendUnaryData<FindCompanyByIdResponse>): void;
+        abstract FindAllCompanies(call: grpc_1.ServerUnaryCall<FindAllCompaniesReq, CommonCompanyResponse>, callback: grpc_1.sendUnaryData<CommonCompanyResponse>): void;
+        abstract BoundCompany(call: grpc_1.ServerUnaryCall<CommonCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
+        abstract VerifyCompany(call: grpc_1.ServerUnaryCall<CommonCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
     }
     export class JobClient extends grpc_1.makeGenericClientConstructor(UnimplementedJobService.definition, "Job", {}) {
         constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
@@ -1671,10 +2072,19 @@ export namespace job {
         UpdateCompany: GrpcUnaryServiceInterface<RegisteredCompanyReq, CommonResponse> = (message: RegisteredCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
             return super.UpdateCompany(message, metadata, options, callback);
         };
-        BoundCompany: GrpcUnaryServiceInterface<BoundCompanyReq, CommonResponse> = (message: BoundCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
+        FindCompanyByName: GrpcUnaryServiceInterface<FindCompanyByNameReq, CommonCompanyResponse> = (message: FindCompanyByNameReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonCompanyResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonCompanyResponse>, callback?: grpc_1.requestCallback<CommonCompanyResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindCompanyByName(message, metadata, options, callback);
+        };
+        FindCompanyById: GrpcUnaryServiceInterface<CommonCompanyReq, FindCompanyByIdResponse> = (message: CommonCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<FindCompanyByIdResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<FindCompanyByIdResponse>, callback?: grpc_1.requestCallback<FindCompanyByIdResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindCompanyById(message, metadata, options, callback);
+        };
+        FindAllCompanies: GrpcUnaryServiceInterface<FindAllCompaniesReq, CommonCompanyResponse> = (message: FindAllCompaniesReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonCompanyResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonCompanyResponse>, callback?: grpc_1.requestCallback<CommonCompanyResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindAllCompanies(message, metadata, options, callback);
+        };
+        BoundCompany: GrpcUnaryServiceInterface<CommonCompanyReq, CommonResponse> = (message: CommonCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
             return super.BoundCompany(message, metadata, options, callback);
         };
-        VerifyCompany: GrpcUnaryServiceInterface<VerifyCompanyReq, CommonResponse> = (message: VerifyCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
+        VerifyCompany: GrpcUnaryServiceInterface<CommonCompanyReq, CommonResponse> = (message: CommonCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
             return super.VerifyCompany(message, metadata, options, callback);
         };
     }
