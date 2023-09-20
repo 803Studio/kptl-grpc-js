@@ -3,106 +3,13 @@
  * compiler version: 4.24.2
  * source: users/user.proto
  * git: https://github.com/thesayyn/protoc-gen-ts */
+import * as dependency_1 from "./../global/headers";
 import * as pb_1 from "google-protobuf";
 import * as grpc_1 from "@grpc/grpc-js";
 export namespace users {
-    export enum ResponseStatus {
-        OK = 0,
-        InternalErr = 1
-    }
     export enum LoginMethod {
         WX = 0,
         ID = 1
-    }
-    export class ResponseHeader extends pb_1.Message {
-        #one_of_decls: number[][] = [];
-        constructor(data?: any[] | {
-            status?: ResponseStatus;
-            message?: string;
-        }) {
-            super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
-            if (!Array.isArray(data) && typeof data == "object") {
-                if ("status" in data && data.status != undefined) {
-                    this.status = data.status;
-                }
-                if ("message" in data && data.message != undefined) {
-                    this.message = data.message;
-                }
-            }
-        }
-        get status() {
-            return pb_1.Message.getFieldWithDefault(this, 1, ResponseStatus.OK) as ResponseStatus;
-        }
-        set status(value: ResponseStatus) {
-            pb_1.Message.setField(this, 1, value);
-        }
-        get message() {
-            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
-        }
-        set message(value: string) {
-            pb_1.Message.setField(this, 2, value);
-        }
-        static fromObject(data: {
-            status?: ResponseStatus;
-            message?: string;
-        }): ResponseHeader {
-            const message = new ResponseHeader({});
-            if (data.status != null) {
-                message.status = data.status;
-            }
-            if (data.message != null) {
-                message.message = data.message;
-            }
-            return message;
-        }
-        toObject() {
-            const data: {
-                status?: ResponseStatus;
-                message?: string;
-            } = {};
-            if (this.status != null) {
-                data.status = this.status;
-            }
-            if (this.message != null) {
-                data.message = this.message;
-            }
-            return data;
-        }
-        serialize(): Uint8Array;
-        serialize(w: pb_1.BinaryWriter): void;
-        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-            const writer = w || new pb_1.BinaryWriter();
-            if (this.status != ResponseStatus.OK)
-                writer.writeEnum(1, this.status);
-            if (this.message.length)
-                writer.writeString(2, this.message);
-            if (!w)
-                return writer.getResultBuffer();
-        }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ResponseHeader {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ResponseHeader();
-            while (reader.nextField()) {
-                if (reader.isEndGroup())
-                    break;
-                switch (reader.getFieldNumber()) {
-                    case 1:
-                        message.status = reader.readEnum();
-                        break;
-                    case 2:
-                        message.message = reader.readString();
-                        break;
-                    default: reader.skipField();
-                }
-            }
-            return message;
-        }
-        serializeBinary(): Uint8Array {
-            return this.serialize();
-        }
-        static deserializeBinary(bytes: Uint8Array): ResponseHeader {
-            return ResponseHeader.deserialize(bytes);
-        }
     }
     export class LoginRequest extends pb_1.Message {
         #one_of_decls: number[][] = [];
@@ -197,7 +104,7 @@ export namespace users {
     export class LoginResponse extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            header?: ResponseHeader;
+            header?: dependency_1.global.ResponseHeader;
             uid?: number;
         }) {
             super();
@@ -212,9 +119,9 @@ export namespace users {
             }
         }
         get header() {
-            return pb_1.Message.getWrapperField(this, ResponseHeader, 1) as ResponseHeader;
+            return pb_1.Message.getWrapperField(this, dependency_1.global.ResponseHeader, 1) as dependency_1.global.ResponseHeader;
         }
-        set header(value: ResponseHeader) {
+        set header(value: dependency_1.global.ResponseHeader) {
             pb_1.Message.setWrapperField(this, 1, value);
         }
         get has_header() {
@@ -227,12 +134,12 @@ export namespace users {
             pb_1.Message.setField(this, 2, value);
         }
         static fromObject(data: {
-            header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+            header?: ReturnType<typeof dependency_1.global.ResponseHeader.prototype.toObject>;
             uid?: number;
         }): LoginResponse {
             const message = new LoginResponse({});
             if (data.header != null) {
-                message.header = ResponseHeader.fromObject(data.header);
+                message.header = dependency_1.global.ResponseHeader.fromObject(data.header);
             }
             if (data.uid != null) {
                 message.uid = data.uid;
@@ -241,7 +148,7 @@ export namespace users {
         }
         toObject() {
             const data: {
-                header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+                header?: ReturnType<typeof dependency_1.global.ResponseHeader.prototype.toObject>;
                 uid?: number;
             } = {};
             if (this.header != null) {
@@ -270,7 +177,7 @@ export namespace users {
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        reader.readMessage(message.header, () => message.header = ResponseHeader.deserialize(reader));
+                        reader.readMessage(message.header, () => message.header = dependency_1.global.ResponseHeader.deserialize(reader));
                         break;
                     case 2:
                         message.uid = reader.readUint32();
