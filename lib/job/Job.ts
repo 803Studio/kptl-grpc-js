@@ -6,6 +6,18 @@
 import * as pb_1 from "google-protobuf";
 import * as grpc_1 from "@grpc/grpc-js";
 export namespace job {
+    export enum JobMoneyType {
+        F2F = 0,
+        DAY = 1,
+        MON = 2,
+        TIME = 3,
+        HOUR = 4
+    }
+    export enum JobType {
+        LONG = 0,
+        SHORT = 1,
+        PARTTIMEJOB = 2
+    }
     export enum ResponseStatus {
         OK = 0,
         InternalErr = 1
@@ -286,12 +298,16 @@ export namespace job {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
             jobId?: number;
+            id?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
                 if ("jobId" in data && data.jobId != undefined) {
                     this.jobId = data.jobId;
+                }
+                if ("id" in data && data.id != undefined) {
+                    this.id = data.id;
                 }
             }
         }
@@ -301,21 +317,35 @@ export namespace job {
         set jobId(value: number) {
             pb_1.Message.setField(this, 1, value);
         }
+        get id() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set id(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
         static fromObject(data: {
             jobId?: number;
+            id?: number;
         }): FindJobByIdRequest {
             const message = new FindJobByIdRequest({});
             if (data.jobId != null) {
                 message.jobId = data.jobId;
+            }
+            if (data.id != null) {
+                message.id = data.id;
             }
             return message;
         }
         toObject() {
             const data: {
                 jobId?: number;
+                id?: number;
             } = {};
             if (this.jobId != null) {
                 data.jobId = this.jobId;
+            }
+            if (this.id != null) {
+                data.id = this.id;
             }
             return data;
         }
@@ -325,6 +355,8 @@ export namespace job {
             const writer = w || new pb_1.BinaryWriter();
             if (this.jobId != 0)
                 writer.writeInt32(1, this.jobId);
+            if (this.id != 0)
+                writer.writeInt32(2, this.id);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -337,6 +369,9 @@ export namespace job {
                     case 1:
                         message.jobId = reader.readInt32();
                         break;
+                    case 2:
+                        message.id = reader.readInt32();
+                        break;
                     default: reader.skipField();
                 }
             }
@@ -347,6 +382,119 @@ export namespace job {
         }
         static deserializeBinary(bytes: Uint8Array): FindJobByIdRequest {
             return FindJobByIdRequest.deserialize(bytes);
+        }
+    }
+    export class FindJobsByIndustryReq extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            industry?: string;
+            index?: number;
+            size?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("industry" in data && data.industry != undefined) {
+                    this.industry = data.industry;
+                }
+                if ("index" in data && data.index != undefined) {
+                    this.index = data.index;
+                }
+                if ("size" in data && data.size != undefined) {
+                    this.size = data.size;
+                }
+            }
+        }
+        get industry() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set industry(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get index() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set index(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get size() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set size(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        static fromObject(data: {
+            industry?: string;
+            index?: number;
+            size?: number;
+        }): FindJobsByIndustryReq {
+            const message = new FindJobsByIndustryReq({});
+            if (data.industry != null) {
+                message.industry = data.industry;
+            }
+            if (data.index != null) {
+                message.index = data.index;
+            }
+            if (data.size != null) {
+                message.size = data.size;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                industry?: string;
+                index?: number;
+                size?: number;
+            } = {};
+            if (this.industry != null) {
+                data.industry = this.industry;
+            }
+            if (this.index != null) {
+                data.index = this.index;
+            }
+            if (this.size != null) {
+                data.size = this.size;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.industry.length)
+                writer.writeString(1, this.industry);
+            if (this.index != 0)
+                writer.writeInt32(2, this.index);
+            if (this.size != 0)
+                writer.writeInt32(3, this.size);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindJobsByIndustryReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindJobsByIndustryReq();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.industry = reader.readString();
+                        break;
+                    case 2:
+                        message.index = reader.readInt32();
+                        break;
+                    case 3:
+                        message.size = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindJobsByIndustryReq {
+            return FindJobsByIndustryReq.deserialize(bytes);
         }
     }
     export class FindAllJobRequest extends pb_1.Message {
@@ -437,6 +585,119 @@ export namespace job {
         }
         static deserializeBinary(bytes: Uint8Array): FindAllJobRequest {
             return FindAllJobRequest.deserialize(bytes);
+        }
+    }
+    export class FindJobsByTypeReq extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            index?: number;
+            size?: number;
+            jobType?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("index" in data && data.index != undefined) {
+                    this.index = data.index;
+                }
+                if ("size" in data && data.size != undefined) {
+                    this.size = data.size;
+                }
+                if ("jobType" in data && data.jobType != undefined) {
+                    this.jobType = data.jobType;
+                }
+            }
+        }
+        get index() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set index(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get size() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set size(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get jobType() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set jobType(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        static fromObject(data: {
+            index?: number;
+            size?: number;
+            jobType?: number;
+        }): FindJobsByTypeReq {
+            const message = new FindJobsByTypeReq({});
+            if (data.index != null) {
+                message.index = data.index;
+            }
+            if (data.size != null) {
+                message.size = data.size;
+            }
+            if (data.jobType != null) {
+                message.jobType = data.jobType;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                index?: number;
+                size?: number;
+                jobType?: number;
+            } = {};
+            if (this.index != null) {
+                data.index = this.index;
+            }
+            if (this.size != null) {
+                data.size = this.size;
+            }
+            if (this.jobType != null) {
+                data.jobType = this.jobType;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.index != 0)
+                writer.writeInt32(1, this.index);
+            if (this.size != 0)
+                writer.writeInt32(2, this.size);
+            if (this.jobType != 0)
+                writer.writeInt32(3, this.jobType);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindJobsByTypeReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindJobsByTypeReq();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.index = reader.readInt32();
+                        break;
+                    case 2:
+                        message.size = reader.readInt32();
+                        break;
+                    case 3:
+                        message.jobType = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindJobsByTypeReq {
+            return FindJobsByTypeReq.deserialize(bytes);
         }
     }
     export class FindJobResponse extends pb_1.Message {
@@ -530,6 +791,99 @@ export namespace job {
         }
         static deserializeBinary(bytes: Uint8Array): FindJobResponse {
             return FindJobResponse.deserialize(bytes);
+        }
+    }
+    export class FindSimplifyJobResponse extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            header?: ResponseHeader;
+            jobMsg?: JobSimplifyMessage[];
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [2], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("header" in data && data.header != undefined) {
+                    this.header = data.header;
+                }
+                if ("jobMsg" in data && data.jobMsg != undefined) {
+                    this.jobMsg = data.jobMsg;
+                }
+            }
+        }
+        get header() {
+            return pb_1.Message.getWrapperField(this, ResponseHeader, 1) as ResponseHeader;
+        }
+        set header(value: ResponseHeader) {
+            pb_1.Message.setWrapperField(this, 1, value);
+        }
+        get has_header() {
+            return pb_1.Message.getField(this, 1) != null;
+        }
+        get jobMsg() {
+            return pb_1.Message.getRepeatedWrapperField(this, JobSimplifyMessage, 2) as JobSimplifyMessage[];
+        }
+        set jobMsg(value: JobSimplifyMessage[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 2, value);
+        }
+        static fromObject(data: {
+            header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+            jobMsg?: ReturnType<typeof JobSimplifyMessage.prototype.toObject>[];
+        }): FindSimplifyJobResponse {
+            const message = new FindSimplifyJobResponse({});
+            if (data.header != null) {
+                message.header = ResponseHeader.fromObject(data.header);
+            }
+            if (data.jobMsg != null) {
+                message.jobMsg = data.jobMsg.map(item => JobSimplifyMessage.fromObject(item));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                header?: ReturnType<typeof ResponseHeader.prototype.toObject>;
+                jobMsg?: ReturnType<typeof JobSimplifyMessage.prototype.toObject>[];
+            } = {};
+            if (this.header != null) {
+                data.header = this.header.toObject();
+            }
+            if (this.jobMsg != null) {
+                data.jobMsg = this.jobMsg.map((item: JobSimplifyMessage) => item.toObject());
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_header)
+                writer.writeMessage(1, this.header, () => this.header.serialize(writer));
+            if (this.jobMsg.length)
+                writer.writeRepeatedMessage(2, this.jobMsg, (item: JobSimplifyMessage) => item.serialize(writer));
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindSimplifyJobResponse {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindSimplifyJobResponse();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message.header, () => message.header = ResponseHeader.deserialize(reader));
+                        break;
+                    case 2:
+                        reader.readMessage(message.jobMsg, () => pb_1.Message.addToRepeatedWrapperField(message, 2, JobSimplifyMessage.deserialize(reader), JobSimplifyMessage));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindSimplifyJobResponse {
+            return FindSimplifyJobResponse.deserialize(bytes);
         }
     }
     export class SaveJobResponse extends pb_1.Message {
@@ -773,6 +1127,7 @@ export namespace job {
             registerTime?: number;
             updateTime?: number;
             industry?: string;
+            companyId?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -800,6 +1155,9 @@ export namespace job {
                 }
                 if ("industry" in data && data.industry != undefined) {
                     this.industry = data.industry;
+                }
+                if ("companyId" in data && data.companyId != undefined) {
+                    this.companyId = data.companyId;
                 }
             }
         }
@@ -851,6 +1209,12 @@ export namespace job {
         set industry(value: string) {
             pb_1.Message.setField(this, 8, value);
         }
+        get companyId() {
+            return pb_1.Message.getFieldWithDefault(this, 9, 0) as number;
+        }
+        set companyId(value: number) {
+            pb_1.Message.setField(this, 9, value);
+        }
         static fromObject(data: {
             id?: number;
             companyName?: string;
@@ -860,6 +1224,7 @@ export namespace job {
             registerTime?: number;
             updateTime?: number;
             industry?: string;
+            companyId?: number;
         }): Company {
             const message = new Company({});
             if (data.id != null) {
@@ -886,6 +1251,9 @@ export namespace job {
             if (data.industry != null) {
                 message.industry = data.industry;
             }
+            if (data.companyId != null) {
+                message.companyId = data.companyId;
+            }
             return message;
         }
         toObject() {
@@ -898,6 +1266,7 @@ export namespace job {
                 registerTime?: number;
                 updateTime?: number;
                 industry?: string;
+                companyId?: number;
             } = {};
             if (this.id != null) {
                 data.id = this.id;
@@ -923,6 +1292,9 @@ export namespace job {
             if (this.industry != null) {
                 data.industry = this.industry;
             }
+            if (this.companyId != null) {
+                data.companyId = this.companyId;
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -945,6 +1317,8 @@ export namespace job {
                 writer.writeInt64(7, this.updateTime);
             if (this.industry.length)
                 writer.writeString(8, this.industry);
+            if (this.companyId != 0)
+                writer.writeInt32(9, this.companyId);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -977,6 +1351,9 @@ export namespace job {
                         break;
                     case 8:
                         message.industry = reader.readString();
+                        break;
+                    case 9:
+                        message.companyId = reader.readInt32();
                         break;
                     default: reader.skipField();
                 }
@@ -1127,274 +1504,76 @@ export namespace job {
             return CommonResponse.deserialize(bytes);
         }
     }
-    export class JobMessage extends pb_1.Message {
+    export class JobMoney extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            jobId?: number;
-            jobName?: string;
-            jobMoney?: number;
-            jobReq?: string;
-            jobLocation?: string;
-            companyId?: number;
-            recruiterName?: string;
-            recruiterPhone?: string;
-            jobNeed?: number;
-            recruiterId?: number;
-            openTime?: number;
-            jobTags?: string;
-            updateTime?: number;
-            industry?: string;
+            type?: JobMoneyType;
+            low?: number;
+            high?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
-                if ("jobId" in data && data.jobId != undefined) {
-                    this.jobId = data.jobId;
+                if ("type" in data && data.type != undefined) {
+                    this.type = data.type;
                 }
-                if ("jobName" in data && data.jobName != undefined) {
-                    this.jobName = data.jobName;
+                if ("low" in data && data.low != undefined) {
+                    this.low = data.low;
                 }
-                if ("jobMoney" in data && data.jobMoney != undefined) {
-                    this.jobMoney = data.jobMoney;
-                }
-                if ("jobReq" in data && data.jobReq != undefined) {
-                    this.jobReq = data.jobReq;
-                }
-                if ("jobLocation" in data && data.jobLocation != undefined) {
-                    this.jobLocation = data.jobLocation;
-                }
-                if ("companyId" in data && data.companyId != undefined) {
-                    this.companyId = data.companyId;
-                }
-                if ("recruiterName" in data && data.recruiterName != undefined) {
-                    this.recruiterName = data.recruiterName;
-                }
-                if ("recruiterPhone" in data && data.recruiterPhone != undefined) {
-                    this.recruiterPhone = data.recruiterPhone;
-                }
-                if ("jobNeed" in data && data.jobNeed != undefined) {
-                    this.jobNeed = data.jobNeed;
-                }
-                if ("recruiterId" in data && data.recruiterId != undefined) {
-                    this.recruiterId = data.recruiterId;
-                }
-                if ("openTime" in data && data.openTime != undefined) {
-                    this.openTime = data.openTime;
-                }
-                if ("jobTags" in data && data.jobTags != undefined) {
-                    this.jobTags = data.jobTags;
-                }
-                if ("updateTime" in data && data.updateTime != undefined) {
-                    this.updateTime = data.updateTime;
-                }
-                if ("industry" in data && data.industry != undefined) {
-                    this.industry = data.industry;
+                if ("high" in data && data.high != undefined) {
+                    this.high = data.high;
                 }
             }
         }
-        get jobId() {
+        get type() {
+            return pb_1.Message.getFieldWithDefault(this, 1, JobMoneyType.F2F) as JobMoneyType;
+        }
+        set type(value: JobMoneyType) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get low() {
             return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
         }
-        set jobId(value: number) {
+        set low(value: number) {
             pb_1.Message.setField(this, 2, value);
         }
-        get jobName() {
-            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+        get high() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
         }
-        set jobName(value: string) {
+        set high(value: number) {
             pb_1.Message.setField(this, 3, value);
         }
-        get jobMoney() {
-            return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
-        }
-        set jobMoney(value: number) {
-            pb_1.Message.setField(this, 4, value);
-        }
-        get jobReq() {
-            return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
-        }
-        set jobReq(value: string) {
-            pb_1.Message.setField(this, 5, value);
-        }
-        get jobLocation() {
-            return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
-        }
-        set jobLocation(value: string) {
-            pb_1.Message.setField(this, 6, value);
-        }
-        get companyId() {
-            return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
-        }
-        set companyId(value: number) {
-            pb_1.Message.setField(this, 7, value);
-        }
-        get recruiterName() {
-            return pb_1.Message.getFieldWithDefault(this, 8, "") as string;
-        }
-        set recruiterName(value: string) {
-            pb_1.Message.setField(this, 8, value);
-        }
-        get recruiterPhone() {
-            return pb_1.Message.getFieldWithDefault(this, 9, "") as string;
-        }
-        set recruiterPhone(value: string) {
-            pb_1.Message.setField(this, 9, value);
-        }
-        get jobNeed() {
-            return pb_1.Message.getFieldWithDefault(this, 10, 0) as number;
-        }
-        set jobNeed(value: number) {
-            pb_1.Message.setField(this, 10, value);
-        }
-        get recruiterId() {
-            return pb_1.Message.getFieldWithDefault(this, 11, 0) as number;
-        }
-        set recruiterId(value: number) {
-            pb_1.Message.setField(this, 11, value);
-        }
-        get openTime() {
-            return pb_1.Message.getFieldWithDefault(this, 12, 0) as number;
-        }
-        set openTime(value: number) {
-            pb_1.Message.setField(this, 12, value);
-        }
-        get jobTags() {
-            return pb_1.Message.getFieldWithDefault(this, 13, "") as string;
-        }
-        set jobTags(value: string) {
-            pb_1.Message.setField(this, 13, value);
-        }
-        get updateTime() {
-            return pb_1.Message.getFieldWithDefault(this, 14, 0) as number;
-        }
-        set updateTime(value: number) {
-            pb_1.Message.setField(this, 14, value);
-        }
-        get industry() {
-            return pb_1.Message.getFieldWithDefault(this, 15, "") as string;
-        }
-        set industry(value: string) {
-            pb_1.Message.setField(this, 15, value);
-        }
         static fromObject(data: {
-            jobId?: number;
-            jobName?: string;
-            jobMoney?: number;
-            jobReq?: string;
-            jobLocation?: string;
-            companyId?: number;
-            recruiterName?: string;
-            recruiterPhone?: string;
-            jobNeed?: number;
-            recruiterId?: number;
-            openTime?: number;
-            jobTags?: string;
-            updateTime?: number;
-            industry?: string;
-        }): JobMessage {
-            const message = new JobMessage({});
-            if (data.jobId != null) {
-                message.jobId = data.jobId;
+            type?: JobMoneyType;
+            low?: number;
+            high?: number;
+        }): JobMoney {
+            const message = new JobMoney({});
+            if (data.type != null) {
+                message.type = data.type;
             }
-            if (data.jobName != null) {
-                message.jobName = data.jobName;
+            if (data.low != null) {
+                message.low = data.low;
             }
-            if (data.jobMoney != null) {
-                message.jobMoney = data.jobMoney;
-            }
-            if (data.jobReq != null) {
-                message.jobReq = data.jobReq;
-            }
-            if (data.jobLocation != null) {
-                message.jobLocation = data.jobLocation;
-            }
-            if (data.companyId != null) {
-                message.companyId = data.companyId;
-            }
-            if (data.recruiterName != null) {
-                message.recruiterName = data.recruiterName;
-            }
-            if (data.recruiterPhone != null) {
-                message.recruiterPhone = data.recruiterPhone;
-            }
-            if (data.jobNeed != null) {
-                message.jobNeed = data.jobNeed;
-            }
-            if (data.recruiterId != null) {
-                message.recruiterId = data.recruiterId;
-            }
-            if (data.openTime != null) {
-                message.openTime = data.openTime;
-            }
-            if (data.jobTags != null) {
-                message.jobTags = data.jobTags;
-            }
-            if (data.updateTime != null) {
-                message.updateTime = data.updateTime;
-            }
-            if (data.industry != null) {
-                message.industry = data.industry;
+            if (data.high != null) {
+                message.high = data.high;
             }
             return message;
         }
         toObject() {
             const data: {
-                jobId?: number;
-                jobName?: string;
-                jobMoney?: number;
-                jobReq?: string;
-                jobLocation?: string;
-                companyId?: number;
-                recruiterName?: string;
-                recruiterPhone?: string;
-                jobNeed?: number;
-                recruiterId?: number;
-                openTime?: number;
-                jobTags?: string;
-                updateTime?: number;
-                industry?: string;
+                type?: JobMoneyType;
+                low?: number;
+                high?: number;
             } = {};
-            if (this.jobId != null) {
-                data.jobId = this.jobId;
+            if (this.type != null) {
+                data.type = this.type;
             }
-            if (this.jobName != null) {
-                data.jobName = this.jobName;
+            if (this.low != null) {
+                data.low = this.low;
             }
-            if (this.jobMoney != null) {
-                data.jobMoney = this.jobMoney;
-            }
-            if (this.jobReq != null) {
-                data.jobReq = this.jobReq;
-            }
-            if (this.jobLocation != null) {
-                data.jobLocation = this.jobLocation;
-            }
-            if (this.companyId != null) {
-                data.companyId = this.companyId;
-            }
-            if (this.recruiterName != null) {
-                data.recruiterName = this.recruiterName;
-            }
-            if (this.recruiterPhone != null) {
-                data.recruiterPhone = this.recruiterPhone;
-            }
-            if (this.jobNeed != null) {
-                data.jobNeed = this.jobNeed;
-            }
-            if (this.recruiterId != null) {
-                data.recruiterId = this.recruiterId;
-            }
-            if (this.openTime != null) {
-                data.openTime = this.openTime;
-            }
-            if (this.jobTags != null) {
-                data.jobTags = this.jobTags;
-            }
-            if (this.updateTime != null) {
-                data.updateTime = this.updateTime;
-            }
-            if (this.industry != null) {
-                data.industry = this.industry;
+            if (this.high != null) {
+                data.high = this.high;
             }
             return data;
         }
@@ -1402,34 +1581,228 @@ export namespace job {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
             const writer = w || new pb_1.BinaryWriter();
-            if (this.jobId != 0)
-                writer.writeInt32(2, this.jobId);
-            if (this.jobName.length)
-                writer.writeString(3, this.jobName);
-            if (this.jobMoney != 0)
-                writer.writeInt32(4, this.jobMoney);
+            if (this.type != JobMoneyType.F2F)
+                writer.writeEnum(1, this.type);
+            if (this.low != 0)
+                writer.writeInt32(2, this.low);
+            if (this.high != 0)
+                writer.writeInt32(3, this.high);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): JobMoney {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new JobMoney();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.type = reader.readEnum();
+                        break;
+                    case 2:
+                        message.low = reader.readInt32();
+                        break;
+                    case 3:
+                        message.high = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): JobMoney {
+            return JobMoney.deserialize(bytes);
+        }
+    }
+    export class JobMessage extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            jobBaseMsg?: JobSimplifyMessage;
+            jobReq?: string;
+            jobNeed?: number;
+            industry?: string;
+            recruiterName?: string;
+            recruiterPhone?: string;
+            recruiterId?: number;
+            updateTime?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("jobBaseMsg" in data && data.jobBaseMsg != undefined) {
+                    this.jobBaseMsg = data.jobBaseMsg;
+                }
+                if ("jobReq" in data && data.jobReq != undefined) {
+                    this.jobReq = data.jobReq;
+                }
+                if ("jobNeed" in data && data.jobNeed != undefined) {
+                    this.jobNeed = data.jobNeed;
+                }
+                if ("industry" in data && data.industry != undefined) {
+                    this.industry = data.industry;
+                }
+                if ("recruiterName" in data && data.recruiterName != undefined) {
+                    this.recruiterName = data.recruiterName;
+                }
+                if ("recruiterPhone" in data && data.recruiterPhone != undefined) {
+                    this.recruiterPhone = data.recruiterPhone;
+                }
+                if ("recruiterId" in data && data.recruiterId != undefined) {
+                    this.recruiterId = data.recruiterId;
+                }
+                if ("updateTime" in data && data.updateTime != undefined) {
+                    this.updateTime = data.updateTime;
+                }
+            }
+        }
+        get jobBaseMsg() {
+            return pb_1.Message.getWrapperField(this, JobSimplifyMessage, 1) as JobSimplifyMessage;
+        }
+        set jobBaseMsg(value: JobSimplifyMessage) {
+            pb_1.Message.setWrapperField(this, 1, value);
+        }
+        get has_jobBaseMsg() {
+            return pb_1.Message.getField(this, 1) != null;
+        }
+        get jobReq() {
+            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+        }
+        set jobReq(value: string) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get jobNeed() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set jobNeed(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get industry() {
+            return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
+        }
+        set industry(value: string) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        get recruiterName() {
+            return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
+        }
+        set recruiterName(value: string) {
+            pb_1.Message.setField(this, 6, value);
+        }
+        get recruiterPhone() {
+            return pb_1.Message.getFieldWithDefault(this, 7, "") as string;
+        }
+        set recruiterPhone(value: string) {
+            pb_1.Message.setField(this, 7, value);
+        }
+        get recruiterId() {
+            return pb_1.Message.getFieldWithDefault(this, 8, 0) as number;
+        }
+        set recruiterId(value: number) {
+            pb_1.Message.setField(this, 8, value);
+        }
+        get updateTime() {
+            return pb_1.Message.getFieldWithDefault(this, 9, 0) as number;
+        }
+        set updateTime(value: number) {
+            pb_1.Message.setField(this, 9, value);
+        }
+        static fromObject(data: {
+            jobBaseMsg?: ReturnType<typeof JobSimplifyMessage.prototype.toObject>;
+            jobReq?: string;
+            jobNeed?: number;
+            industry?: string;
+            recruiterName?: string;
+            recruiterPhone?: string;
+            recruiterId?: number;
+            updateTime?: number;
+        }): JobMessage {
+            const message = new JobMessage({});
+            if (data.jobBaseMsg != null) {
+                message.jobBaseMsg = JobSimplifyMessage.fromObject(data.jobBaseMsg);
+            }
+            if (data.jobReq != null) {
+                message.jobReq = data.jobReq;
+            }
+            if (data.jobNeed != null) {
+                message.jobNeed = data.jobNeed;
+            }
+            if (data.industry != null) {
+                message.industry = data.industry;
+            }
+            if (data.recruiterName != null) {
+                message.recruiterName = data.recruiterName;
+            }
+            if (data.recruiterPhone != null) {
+                message.recruiterPhone = data.recruiterPhone;
+            }
+            if (data.recruiterId != null) {
+                message.recruiterId = data.recruiterId;
+            }
+            if (data.updateTime != null) {
+                message.updateTime = data.updateTime;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                jobBaseMsg?: ReturnType<typeof JobSimplifyMessage.prototype.toObject>;
+                jobReq?: string;
+                jobNeed?: number;
+                industry?: string;
+                recruiterName?: string;
+                recruiterPhone?: string;
+                recruiterId?: number;
+                updateTime?: number;
+            } = {};
+            if (this.jobBaseMsg != null) {
+                data.jobBaseMsg = this.jobBaseMsg.toObject();
+            }
+            if (this.jobReq != null) {
+                data.jobReq = this.jobReq;
+            }
+            if (this.jobNeed != null) {
+                data.jobNeed = this.jobNeed;
+            }
+            if (this.industry != null) {
+                data.industry = this.industry;
+            }
+            if (this.recruiterName != null) {
+                data.recruiterName = this.recruiterName;
+            }
+            if (this.recruiterPhone != null) {
+                data.recruiterPhone = this.recruiterPhone;
+            }
+            if (this.recruiterId != null) {
+                data.recruiterId = this.recruiterId;
+            }
+            if (this.updateTime != null) {
+                data.updateTime = this.updateTime;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_jobBaseMsg)
+                writer.writeMessage(1, this.jobBaseMsg, () => this.jobBaseMsg.serialize(writer));
             if (this.jobReq.length)
-                writer.writeString(5, this.jobReq);
-            if (this.jobLocation.length)
-                writer.writeString(6, this.jobLocation);
-            if (this.companyId != 0)
-                writer.writeInt32(7, this.companyId);
-            if (this.recruiterName.length)
-                writer.writeString(8, this.recruiterName);
-            if (this.recruiterPhone.length)
-                writer.writeString(9, this.recruiterPhone);
+                writer.writeString(2, this.jobReq);
             if (this.jobNeed != 0)
-                writer.writeInt32(10, this.jobNeed);
-            if (this.recruiterId != 0)
-                writer.writeInt32(11, this.recruiterId);
-            if (this.openTime != 0)
-                writer.writeInt64(12, this.openTime);
-            if (this.jobTags.length)
-                writer.writeString(13, this.jobTags);
-            if (this.updateTime != 0)
-                writer.writeInt64(14, this.updateTime);
+                writer.writeInt32(3, this.jobNeed);
             if (this.industry.length)
-                writer.writeString(15, this.industry);
+                writer.writeString(5, this.industry);
+            if (this.recruiterName.length)
+                writer.writeString(6, this.recruiterName);
+            if (this.recruiterPhone.length)
+                writer.writeString(7, this.recruiterPhone);
+            if (this.recruiterId != 0)
+                writer.writeInt32(8, this.recruiterId);
+            if (this.updateTime != 0)
+                writer.writeInt64(9, this.updateTime);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -1439,47 +1812,29 @@ export namespace job {
                 if (reader.isEndGroup())
                     break;
                 switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message.jobBaseMsg, () => message.jobBaseMsg = JobSimplifyMessage.deserialize(reader));
+                        break;
                     case 2:
-                        message.jobId = reader.readInt32();
-                        break;
-                    case 3:
-                        message.jobName = reader.readString();
-                        break;
-                    case 4:
-                        message.jobMoney = reader.readInt32();
-                        break;
-                    case 5:
                         message.jobReq = reader.readString();
                         break;
-                    case 6:
-                        message.jobLocation = reader.readString();
-                        break;
-                    case 7:
-                        message.companyId = reader.readInt32();
-                        break;
-                    case 8:
-                        message.recruiterName = reader.readString();
-                        break;
-                    case 9:
-                        message.recruiterPhone = reader.readString();
-                        break;
-                    case 10:
+                    case 3:
                         message.jobNeed = reader.readInt32();
                         break;
-                    case 11:
+                    case 5:
+                        message.industry = reader.readString();
+                        break;
+                    case 6:
+                        message.recruiterName = reader.readString();
+                        break;
+                    case 7:
+                        message.recruiterPhone = reader.readString();
+                        break;
+                    case 8:
                         message.recruiterId = reader.readInt32();
                         break;
-                    case 12:
-                        message.openTime = reader.readInt64();
-                        break;
-                    case 13:
-                        message.jobTags = reader.readString();
-                        break;
-                    case 14:
+                    case 9:
                         message.updateTime = reader.readInt64();
-                        break;
-                    case 15:
-                        message.industry = reader.readString();
                         break;
                     default: reader.skipField();
                 }
@@ -1491,6 +1846,260 @@ export namespace job {
         }
         static deserializeBinary(bytes: Uint8Array): JobMessage {
             return JobMessage.deserialize(bytes);
+        }
+    }
+    export class JobSimplifyMessage extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            jobId?: number;
+            jobName?: string;
+            jobLocation?: string;
+            companyName?: string;
+            jobTags?: string;
+            companyId?: number;
+            openTime?: number;
+            jobMoney?: JobMoney;
+            jobType?: JobType;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("jobId" in data && data.jobId != undefined) {
+                    this.jobId = data.jobId;
+                }
+                if ("jobName" in data && data.jobName != undefined) {
+                    this.jobName = data.jobName;
+                }
+                if ("jobLocation" in data && data.jobLocation != undefined) {
+                    this.jobLocation = data.jobLocation;
+                }
+                if ("companyName" in data && data.companyName != undefined) {
+                    this.companyName = data.companyName;
+                }
+                if ("jobTags" in data && data.jobTags != undefined) {
+                    this.jobTags = data.jobTags;
+                }
+                if ("companyId" in data && data.companyId != undefined) {
+                    this.companyId = data.companyId;
+                }
+                if ("openTime" in data && data.openTime != undefined) {
+                    this.openTime = data.openTime;
+                }
+                if ("jobMoney" in data && data.jobMoney != undefined) {
+                    this.jobMoney = data.jobMoney;
+                }
+                if ("jobType" in data && data.jobType != undefined) {
+                    this.jobType = data.jobType;
+                }
+            }
+        }
+        get jobId() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set jobId(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get jobName() {
+            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+        }
+        set jobName(value: string) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get jobLocation() {
+            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+        }
+        set jobLocation(value: string) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get companyName() {
+            return pb_1.Message.getFieldWithDefault(this, 4, "") as string;
+        }
+        set companyName(value: string) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        get jobTags() {
+            return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
+        }
+        set jobTags(value: string) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        get companyId() {
+            return pb_1.Message.getFieldWithDefault(this, 6, 0) as number;
+        }
+        set companyId(value: number) {
+            pb_1.Message.setField(this, 6, value);
+        }
+        get openTime() {
+            return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+        }
+        set openTime(value: number) {
+            pb_1.Message.setField(this, 7, value);
+        }
+        get jobMoney() {
+            return pb_1.Message.getWrapperField(this, JobMoney, 8) as JobMoney;
+        }
+        set jobMoney(value: JobMoney) {
+            pb_1.Message.setWrapperField(this, 8, value);
+        }
+        get has_jobMoney() {
+            return pb_1.Message.getField(this, 8) != null;
+        }
+        get jobType() {
+            return pb_1.Message.getFieldWithDefault(this, 9, JobType.LONG) as JobType;
+        }
+        set jobType(value: JobType) {
+            pb_1.Message.setField(this, 9, value);
+        }
+        static fromObject(data: {
+            jobId?: number;
+            jobName?: string;
+            jobLocation?: string;
+            companyName?: string;
+            jobTags?: string;
+            companyId?: number;
+            openTime?: number;
+            jobMoney?: ReturnType<typeof JobMoney.prototype.toObject>;
+            jobType?: JobType;
+        }): JobSimplifyMessage {
+            const message = new JobSimplifyMessage({});
+            if (data.jobId != null) {
+                message.jobId = data.jobId;
+            }
+            if (data.jobName != null) {
+                message.jobName = data.jobName;
+            }
+            if (data.jobLocation != null) {
+                message.jobLocation = data.jobLocation;
+            }
+            if (data.companyName != null) {
+                message.companyName = data.companyName;
+            }
+            if (data.jobTags != null) {
+                message.jobTags = data.jobTags;
+            }
+            if (data.companyId != null) {
+                message.companyId = data.companyId;
+            }
+            if (data.openTime != null) {
+                message.openTime = data.openTime;
+            }
+            if (data.jobMoney != null) {
+                message.jobMoney = JobMoney.fromObject(data.jobMoney);
+            }
+            if (data.jobType != null) {
+                message.jobType = data.jobType;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                jobId?: number;
+                jobName?: string;
+                jobLocation?: string;
+                companyName?: string;
+                jobTags?: string;
+                companyId?: number;
+                openTime?: number;
+                jobMoney?: ReturnType<typeof JobMoney.prototype.toObject>;
+                jobType?: JobType;
+            } = {};
+            if (this.jobId != null) {
+                data.jobId = this.jobId;
+            }
+            if (this.jobName != null) {
+                data.jobName = this.jobName;
+            }
+            if (this.jobLocation != null) {
+                data.jobLocation = this.jobLocation;
+            }
+            if (this.companyName != null) {
+                data.companyName = this.companyName;
+            }
+            if (this.jobTags != null) {
+                data.jobTags = this.jobTags;
+            }
+            if (this.companyId != null) {
+                data.companyId = this.companyId;
+            }
+            if (this.openTime != null) {
+                data.openTime = this.openTime;
+            }
+            if (this.jobMoney != null) {
+                data.jobMoney = this.jobMoney.toObject();
+            }
+            if (this.jobType != null) {
+                data.jobType = this.jobType;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.jobId != 0)
+                writer.writeInt32(1, this.jobId);
+            if (this.jobName.length)
+                writer.writeString(2, this.jobName);
+            if (this.jobLocation.length)
+                writer.writeString(3, this.jobLocation);
+            if (this.companyName.length)
+                writer.writeString(4, this.companyName);
+            if (this.jobTags.length)
+                writer.writeString(5, this.jobTags);
+            if (this.companyId != 0)
+                writer.writeInt32(6, this.companyId);
+            if (this.openTime != 0)
+                writer.writeInt64(7, this.openTime);
+            if (this.has_jobMoney)
+                writer.writeMessage(8, this.jobMoney, () => this.jobMoney.serialize(writer));
+            if (this.jobType != JobType.LONG)
+                writer.writeEnum(9, this.jobType);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): JobSimplifyMessage {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new JobSimplifyMessage();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.jobId = reader.readInt32();
+                        break;
+                    case 2:
+                        message.jobName = reader.readString();
+                        break;
+                    case 3:
+                        message.jobLocation = reader.readString();
+                        break;
+                    case 4:
+                        message.companyName = reader.readString();
+                        break;
+                    case 5:
+                        message.jobTags = reader.readString();
+                        break;
+                    case 6:
+                        message.companyId = reader.readInt32();
+                        break;
+                    case 7:
+                        message.openTime = reader.readInt64();
+                        break;
+                    case 8:
+                        reader.readMessage(message.jobMoney, () => message.jobMoney = JobMoney.deserialize(reader));
+                        break;
+                    case 9:
+                        message.jobType = reader.readEnum();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): JobSimplifyMessage {
+            return JobSimplifyMessage.deserialize(bytes);
         }
     }
     export class FindCompanyByNameReq extends pb_1.Message {
@@ -1885,6 +2494,119 @@ export namespace job {
             return FindCompanyByIdResponse.deserialize(bytes);
         }
     }
+    export class FindCompanyByIndustryReq extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            industry?: string;
+            index?: number;
+            size?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("industry" in data && data.industry != undefined) {
+                    this.industry = data.industry;
+                }
+                if ("index" in data && data.index != undefined) {
+                    this.index = data.index;
+                }
+                if ("size" in data && data.size != undefined) {
+                    this.size = data.size;
+                }
+            }
+        }
+        get industry() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set industry(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get index() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set index(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get size() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set size(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        static fromObject(data: {
+            industry?: string;
+            index?: number;
+            size?: number;
+        }): FindCompanyByIndustryReq {
+            const message = new FindCompanyByIndustryReq({});
+            if (data.industry != null) {
+                message.industry = data.industry;
+            }
+            if (data.index != null) {
+                message.index = data.index;
+            }
+            if (data.size != null) {
+                message.size = data.size;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                industry?: string;
+                index?: number;
+                size?: number;
+            } = {};
+            if (this.industry != null) {
+                data.industry = this.industry;
+            }
+            if (this.index != null) {
+                data.index = this.index;
+            }
+            if (this.size != null) {
+                data.size = this.size;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.industry.length)
+                writer.writeString(1, this.industry);
+            if (this.index != 0)
+                writer.writeInt32(2, this.index);
+            if (this.size != 0)
+                writer.writeInt32(3, this.size);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FindCompanyByIndustryReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FindCompanyByIndustryReq();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.industry = reader.readString();
+                        break;
+                    case 2:
+                        message.index = reader.readInt32();
+                        break;
+                    case 3:
+                        message.size = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): FindCompanyByIndustryReq {
+            return FindCompanyByIndustryReq.deserialize(bytes);
+        }
+    }
     interface GrpcUnaryServiceInterface<P, R> {
         (message: P, metadata: grpc_1.Metadata, options: grpc_1.CallOptions, callback: grpc_1.requestCallback<R>): grpc_1.ClientUnaryCall;
         (message: P, metadata: grpc_1.Metadata, callback: grpc_1.requestCallback<R>): grpc_1.ClientUnaryCall;
@@ -1938,6 +2660,15 @@ export namespace job {
                 responseSerialize: (message: FindJobResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => FindJobResponse.deserialize(new Uint8Array(bytes))
             },
+            FindJobsByIndustry: {
+                path: "/job.Job/FindJobsByIndustry",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: FindJobsByIndustryReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => FindJobsByIndustryReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: FindJobResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => FindJobResponse.deserialize(new Uint8Array(bytes))
+            },
             FindJobs: {
                 path: "/job.Job/FindJobs",
                 requestStream: false,
@@ -1947,6 +2678,15 @@ export namespace job {
                 responseSerialize: (message: FindJobResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => FindJobResponse.deserialize(new Uint8Array(bytes))
             },
+            FindJobsByType: {
+                path: "/job.Job/FindJobsByType",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: FindJobsByTypeReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => FindJobsByTypeReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: FindSimplifyJobResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => FindSimplifyJobResponse.deserialize(new Uint8Array(bytes))
+            },
             SaveJobs: {
                 path: "/job.Job/SaveJobs",
                 requestStream: false,
@@ -1955,6 +2695,15 @@ export namespace job {
                 requestDeserialize: (bytes: Buffer) => JobMessage.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: SaveJobResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => SaveJobResponse.deserialize(new Uint8Array(bytes))
+            },
+            FindJobsSimplify: {
+                path: "/job.Job/FindJobsSimplify",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: FindAllJobRequest) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => FindAllJobRequest.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: FindSimplifyJobResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => FindSimplifyJobResponse.deserialize(new Uint8Array(bytes))
             },
             UpdateJobs: {
                 path: "/job.Job/UpdateJobs",
@@ -1969,8 +2718,8 @@ export namespace job {
                 path: "/job.Job/RegisteredCompany",
                 requestStream: false,
                 responseStream: false,
-                requestSerialize: (message: RegisteredCompanyReq) => Buffer.from(message.serialize()),
-                requestDeserialize: (bytes: Buffer) => RegisteredCompanyReq.deserialize(new Uint8Array(bytes)),
+                requestSerialize: (message: Company) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => Company.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: CommonResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => CommonResponse.deserialize(new Uint8Array(bytes))
             },
@@ -2027,22 +2776,35 @@ export namespace job {
                 requestDeserialize: (bytes: Buffer) => CommonCompanyReq.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: CommonResponse) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => CommonResponse.deserialize(new Uint8Array(bytes))
+            },
+            FindCompanyByIndustry: {
+                path: "/job.Job/FindCompanyByIndustry",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: FindCompanyByIndustryReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => FindCompanyByIndustryReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: CommonCompanyResponse) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => CommonCompanyResponse.deserialize(new Uint8Array(bytes))
             }
         };
         [method: string]: grpc_1.UntypedHandleCall;
         abstract FindAllJobs(call: grpc_1.ServerUnaryCall<FindAllJobRequest, FindJobResponse>, callback: grpc_1.sendUnaryData<FindJobResponse>): void;
         abstract FindJobByName(call: grpc_1.ServerUnaryCall<FindJobByNameRequest, FindJobResponse>, callback: grpc_1.sendUnaryData<FindJobResponse>): void;
         abstract FindJobById(call: grpc_1.ServerUnaryCall<FindJobByIdRequest, FindJobResponse>, callback: grpc_1.sendUnaryData<FindJobResponse>): void;
+        abstract FindJobsByIndustry(call: grpc_1.ServerUnaryCall<FindJobsByIndustryReq, FindJobResponse>, callback: grpc_1.sendUnaryData<FindJobResponse>): void;
         abstract FindJobs(call: grpc_1.ServerUnaryCall<FindJobRequest, FindJobResponse>, callback: grpc_1.sendUnaryData<FindJobResponse>): void;
+        abstract FindJobsByType(call: grpc_1.ServerUnaryCall<FindJobsByTypeReq, FindSimplifyJobResponse>, callback: grpc_1.sendUnaryData<FindSimplifyJobResponse>): void;
         abstract SaveJobs(call: grpc_1.ServerUnaryCall<JobMessage, SaveJobResponse>, callback: grpc_1.sendUnaryData<SaveJobResponse>): void;
+        abstract FindJobsSimplify(call: grpc_1.ServerUnaryCall<FindAllJobRequest, FindSimplifyJobResponse>, callback: grpc_1.sendUnaryData<FindSimplifyJobResponse>): void;
         abstract UpdateJobs(call: grpc_1.ServerUnaryCall<JobMessage, SaveJobResponse>, callback: grpc_1.sendUnaryData<SaveJobResponse>): void;
-        abstract RegisteredCompany(call: grpc_1.ServerUnaryCall<RegisteredCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
+        abstract RegisteredCompany(call: grpc_1.ServerUnaryCall<Company, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
         abstract UpdateCompany(call: grpc_1.ServerUnaryCall<RegisteredCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
         abstract FindCompanyByName(call: grpc_1.ServerUnaryCall<FindCompanyByNameReq, CommonCompanyResponse>, callback: grpc_1.sendUnaryData<CommonCompanyResponse>): void;
         abstract FindCompanyById(call: grpc_1.ServerUnaryCall<CommonCompanyReq, FindCompanyByIdResponse>, callback: grpc_1.sendUnaryData<FindCompanyByIdResponse>): void;
         abstract FindAllCompanies(call: grpc_1.ServerUnaryCall<FindAllCompaniesReq, CommonCompanyResponse>, callback: grpc_1.sendUnaryData<CommonCompanyResponse>): void;
         abstract BoundCompany(call: grpc_1.ServerUnaryCall<CommonCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
         abstract VerifyCompany(call: grpc_1.ServerUnaryCall<CommonCompanyReq, CommonResponse>, callback: grpc_1.sendUnaryData<CommonResponse>): void;
+        abstract FindCompanyByIndustry(call: grpc_1.ServerUnaryCall<FindCompanyByIndustryReq, CommonCompanyResponse>, callback: grpc_1.sendUnaryData<CommonCompanyResponse>): void;
     }
     export class JobClient extends grpc_1.makeGenericClientConstructor(UnimplementedJobService.definition, "Job", {}) {
         constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
@@ -2057,16 +2819,25 @@ export namespace job {
         FindJobById: GrpcUnaryServiceInterface<FindJobByIdRequest, FindJobResponse> = (message: FindJobByIdRequest, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<FindJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<FindJobResponse>, callback?: grpc_1.requestCallback<FindJobResponse>): grpc_1.ClientUnaryCall => {
             return super.FindJobById(message, metadata, options, callback);
         };
+        FindJobsByIndustry: GrpcUnaryServiceInterface<FindJobsByIndustryReq, FindJobResponse> = (message: FindJobsByIndustryReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<FindJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<FindJobResponse>, callback?: grpc_1.requestCallback<FindJobResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindJobsByIndustry(message, metadata, options, callback);
+        };
         FindJobs: GrpcUnaryServiceInterface<FindJobRequest, FindJobResponse> = (message: FindJobRequest, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<FindJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<FindJobResponse>, callback?: grpc_1.requestCallback<FindJobResponse>): grpc_1.ClientUnaryCall => {
             return super.FindJobs(message, metadata, options, callback);
+        };
+        FindJobsByType: GrpcUnaryServiceInterface<FindJobsByTypeReq, FindSimplifyJobResponse> = (message: FindJobsByTypeReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<FindSimplifyJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<FindSimplifyJobResponse>, callback?: grpc_1.requestCallback<FindSimplifyJobResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindJobsByType(message, metadata, options, callback);
         };
         SaveJobs: GrpcUnaryServiceInterface<JobMessage, SaveJobResponse> = (message: JobMessage, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<SaveJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<SaveJobResponse>, callback?: grpc_1.requestCallback<SaveJobResponse>): grpc_1.ClientUnaryCall => {
             return super.SaveJobs(message, metadata, options, callback);
         };
+        FindJobsSimplify: GrpcUnaryServiceInterface<FindAllJobRequest, FindSimplifyJobResponse> = (message: FindAllJobRequest, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<FindSimplifyJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<FindSimplifyJobResponse>, callback?: grpc_1.requestCallback<FindSimplifyJobResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindJobsSimplify(message, metadata, options, callback);
+        };
         UpdateJobs: GrpcUnaryServiceInterface<JobMessage, SaveJobResponse> = (message: JobMessage, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<SaveJobResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<SaveJobResponse>, callback?: grpc_1.requestCallback<SaveJobResponse>): grpc_1.ClientUnaryCall => {
             return super.UpdateJobs(message, metadata, options, callback);
         };
-        RegisteredCompany: GrpcUnaryServiceInterface<RegisteredCompanyReq, CommonResponse> = (message: RegisteredCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
+        RegisteredCompany: GrpcUnaryServiceInterface<Company, CommonResponse> = (message: Company, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
             return super.RegisteredCompany(message, metadata, options, callback);
         };
         UpdateCompany: GrpcUnaryServiceInterface<RegisteredCompanyReq, CommonResponse> = (message: RegisteredCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
@@ -2086,6 +2857,9 @@ export namespace job {
         };
         VerifyCompany: GrpcUnaryServiceInterface<CommonCompanyReq, CommonResponse> = (message: CommonCompanyReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonResponse>, callback?: grpc_1.requestCallback<CommonResponse>): grpc_1.ClientUnaryCall => {
             return super.VerifyCompany(message, metadata, options, callback);
+        };
+        FindCompanyByIndustry: GrpcUnaryServiceInterface<FindCompanyByIndustryReq, CommonCompanyResponse> = (message: FindCompanyByIndustryReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<CommonCompanyResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<CommonCompanyResponse>, callback?: grpc_1.requestCallback<CommonCompanyResponse>): grpc_1.ClientUnaryCall => {
+            return super.FindCompanyByIndustry(message, metadata, options, callback);
         };
     }
 }
