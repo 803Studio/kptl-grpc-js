@@ -1,6 +1,6 @@
 {
   "name": "kptl-grpc-js",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "kptl grpc lib for js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

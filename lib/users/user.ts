@@ -220,8 +220,8 @@ export namespace users {
     }
     export abstract class UnimplementedAuthService {
         static definition = {
-            Login: {
-                path: "/users.Auth/Login",
+            login: {
+                path: "/users.Auth/login",
                 requestStream: false,
                 responseStream: false,
                 requestSerialize: (message: LoginRequest) => Buffer.from(message.serialize()),
@@ -231,14 +231,14 @@ export namespace users {
             }
         };
         [method: string]: grpc_1.UntypedHandleCall;
-        abstract Login(call: grpc_1.ServerUnaryCall<LoginRequest, LoginResponse>, callback: grpc_1.sendUnaryData<LoginResponse>): void;
+        abstract login(call: grpc_1.ServerUnaryCall<LoginRequest, LoginResponse>, callback: grpc_1.sendUnaryData<LoginResponse>): void;
     }
     export class AuthClient extends grpc_1.makeGenericClientConstructor(UnimplementedAuthService.definition, "Auth", {}) {
         constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
             super(address, credentials, options);
         }
-        Login: GrpcUnaryServiceInterface<LoginRequest, LoginResponse> = (message: LoginRequest, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<LoginResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<LoginResponse>, callback?: grpc_1.requestCallback<LoginResponse>): grpc_1.ClientUnaryCall => {
-            return super.Login(message, metadata, options, callback);
+        login: GrpcUnaryServiceInterface<LoginRequest, LoginResponse> = (message: LoginRequest, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<LoginResponse>, options?: grpc_1.CallOptions | grpc_1.requestCallback<LoginResponse>, callback?: grpc_1.requestCallback<LoginResponse>): grpc_1.ClientUnaryCall => {
+            return super.login(message, metadata, options, callback);
         };
     }
 }
