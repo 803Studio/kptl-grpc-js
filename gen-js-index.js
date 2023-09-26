@@ -74,7 +74,7 @@ module.exports = {
 `)
 
   await fsp.writeFile(path.join(JS_LIB, 'index.d.ts'), `//
-${info.map(sub => `export * from './${sub.name}'`).join('\n')}
+${info.map(sub => `export * as ${sub.name} from './${sub.name}'`).join('\n')}
 `)
 }
 

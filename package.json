@@ -1,6 +1,6 @@
 {
   "name": "kptl-grpc-js",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "description": "kptl grpc lib for js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "grpc-tools": "^1.12.4",
-    "protoc-gen-ts": "^0.8.6"
+    "ts-protoc-gen": "0.15.1-pre.a71b34e"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.9.2",
