@@ -2,7 +2,7 @@
 // file: users/user.proto
 
 import * as jspb from "google-protobuf";
-import * as global_headers_pb from "../global/headers_pb";
+import * as comm_headers_pb from "../comm/headers_pb";
 
 export class LoginRequest extends jspb.Message {
   getMethod(): LoginMethodMap[keyof LoginMethodMap];
@@ -31,8 +31,8 @@ export namespace LoginRequest {
 export class LoginResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   getUid(): number;
   setUid(value: number): void;
@@ -49,7 +49,7 @@ export class LoginResponse extends jspb.Message {
 
 export namespace LoginResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     uid: number,
   }
 }

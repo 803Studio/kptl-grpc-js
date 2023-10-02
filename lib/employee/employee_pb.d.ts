@@ -2,7 +2,7 @@
 // file: employee/employee.proto
 
 import * as jspb from "google-protobuf";
-import * as global_headers_pb from "../global/headers_pb";
+import * as comm_headers_pb from "../comm/headers_pb";
 
 export class OperateRequest extends jspb.Message {
   getId(): number;
@@ -181,8 +181,8 @@ export namespace SplitPage {
 export class FindEmployeeSimpleResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   clearEmployeesList(): void;
   getEmployeesList(): Array<SimpleInformation>;
@@ -201,7 +201,7 @@ export class FindEmployeeSimpleResponse extends jspb.Message {
 
 export namespace FindEmployeeSimpleResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     employeesList: Array<SimpleInformation.AsObject>,
   }
 }
@@ -209,8 +209,8 @@ export namespace FindEmployeeSimpleResponse {
 export class FindEmployeeResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   hasSelfinfo(): boolean;
   clearSelfinfo(): void;
@@ -229,7 +229,7 @@ export class FindEmployeeResponse extends jspb.Message {
 
 export namespace FindEmployeeResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     selfinfo?: SelfInformation.AsObject,
   }
 }
@@ -237,8 +237,8 @@ export namespace FindEmployeeResponse {
 export class OperateResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   clearJobidsList(): void;
   getJobidsList(): Array<number>;
@@ -257,7 +257,7 @@ export class OperateResponse extends jspb.Message {
 
 export namespace OperateResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     jobidsList: Array<number>,
   }
 }

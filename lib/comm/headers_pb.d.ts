@@ -1,5 +1,5 @@
-// package: global
-// file: global/headers.proto
+// package: comm
+// file: comm/headers.proto
 
 import * as jspb from "google-protobuf";
 

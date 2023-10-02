@@ -2,7 +2,7 @@
 // file: job/job.proto
 
 import * as jspb from "google-protobuf";
-import * as global_headers_pb from "../global/headers_pb";
+import * as comm_headers_pb from "../comm/headers_pb";
 
 export class FindJobRequest extends jspb.Message {
   getId(): number;
@@ -175,8 +175,8 @@ export namespace FindJobsByTypeReq {
 export class FindJobResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   clearJobmsgList(): void;
   getJobmsgList(): Array<JobMessage>;
@@ -195,7 +195,7 @@ export class FindJobResponse extends jspb.Message {
 
 export namespace FindJobResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     jobmsgList: Array<JobMessage.AsObject>,
   }
 }
@@ -203,8 +203,8 @@ export namespace FindJobResponse {
 export class FindSimplifyJobResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   clearJobmsgList(): void;
   getJobmsgList(): Array<JobSimplifyMessage>;
@@ -223,7 +223,7 @@ export class FindSimplifyJobResponse extends jspb.Message {
 
 export namespace FindSimplifyJobResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     jobmsgList: Array<JobSimplifyMessage.AsObject>,
   }
 }
@@ -231,8 +231,8 @@ export namespace FindSimplifyJobResponse {
 export class SaveJobResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): SaveJobResponse.AsObject;
@@ -246,15 +246,15 @@ export class SaveJobResponse extends jspb.Message {
 
 export namespace SaveJobResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
   }
 }
 
 export class CommonResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CommonResponse.AsObject;
@@ -268,7 +268,7 @@ export class CommonResponse extends jspb.Message {
 
 export namespace CommonResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
   }
 }
 

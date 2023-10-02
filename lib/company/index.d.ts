@@ -1,5 +1,5 @@
 //package company
-//Tue Sep 26 2023 11:41:11 GMT+0800 (China Standard Time)
+//Tue Oct 03 2023 04:16:23 GMT+0800 (China Standard Time)
 
 export * from './company_grpc_pb'
 export * from './company_pb'

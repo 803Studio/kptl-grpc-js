@@ -2,7 +2,7 @@
 // file: company/company.proto
 
 import * as jspb from "google-protobuf";
-import * as global_headers_pb from "../global/headers_pb";
+import * as comm_headers_pb from "../comm/headers_pb";
 
 export class RegisteredCompanyReq extends jspb.Message {
   hasCompany(): boolean;
@@ -101,8 +101,8 @@ export namespace CommonCompanyReq {
 export class CommonResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CommonResponse.AsObject;
@@ -116,7 +116,7 @@ export class CommonResponse extends jspb.Message {
 
 export namespace CommonResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
   }
 }
 
@@ -175,8 +175,8 @@ export namespace FindAllCompaniesReq {
 export class CommonCompanyResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   clearCompaniesList(): void;
   getCompaniesList(): Array<Company>;
@@ -195,7 +195,7 @@ export class CommonCompanyResponse extends jspb.Message {
 
 export namespace CommonCompanyResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     companiesList: Array<Company.AsObject>,
   }
 }
@@ -203,8 +203,8 @@ export namespace CommonCompanyResponse {
 export class FindCompanyByIdResponse extends jspb.Message {
   hasHeader(): boolean;
   clearHeader(): void;
-  getHeader(): global_headers_pb.ResponseHeader | undefined;
-  setHeader(value?: global_headers_pb.ResponseHeader): void;
+  getHeader(): comm_headers_pb.ResponseHeader | undefined;
+  setHeader(value?: comm_headers_pb.ResponseHeader): void;
 
   hasCompany(): boolean;
   clearCompany(): void;
@@ -223,7 +223,7 @@ export class FindCompanyByIdResponse extends jspb.Message {
 
 export namespace FindCompanyByIdResponse {
   export type AsObject = {
-    header?: global_headers_pb.ResponseHeader.AsObject,
+    header?: comm_headers_pb.ResponseHeader.AsObject,
     company?: Company.AsObject,
   }
 }
