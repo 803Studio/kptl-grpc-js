@@ -37,6 +37,9 @@ export class LoginResponse extends jspb.Message {
   getUid(): number;
   setUid(value: number): void;
 
+  getRole(): UserRoleMap[keyof UserRoleMap];
+  setRole(value: UserRoleMap[keyof UserRoleMap]): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): LoginResponse.AsObject;
   static toObject(includeInstance: boolean, msg: LoginResponse): LoginResponse.AsObject;
@@ -51,6 +54,7 @@ export namespace LoginResponse {
   export type AsObject = {
     header?: comm_headers_pb.ResponseHeader.AsObject,
     uid: number,
+    role: UserRoleMap[keyof UserRoleMap],
   }
 }
 
@@ -60,4 +64,13 @@ export interface LoginMethodMap {
 }
 
 export const LoginMethod: LoginMethodMap;
+
+export interface UserRoleMap {
+  BOSS: 0;
+  ADMIN: 1;
+  USER: 2;
+  BANNED: 3;
+}
+
+export const UserRole: UserRoleMap;
 
